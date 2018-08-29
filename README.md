@@ -4,14 +4,22 @@
 ## Dependency
 
 ### MacOS
-1. Install Python 3
+1. Python 3
 >  brew install python3
 
-2. Install a Python Plug-in Pika
+2. Pika
 >  pip install pika
 
-3. Instal a RabbitMQ
->  hir
+3. RabbitMQ
+>  brew install RabbitMQ
+
+4. MongoDB
+> brew install mongodb
 
 ### Debian/Ubuntu
+
+
+## How to Run
+
+1. 
 
