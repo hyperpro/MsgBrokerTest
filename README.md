@@ -11,7 +11,7 @@
 >  pip install pika
 
 3. RabbitMQ
->  brew install RabbitMQ
+>  brew install rabbitmq
 
 4. MongoDB
 > brew install mongodb
