@@ -1,8 +1,15 @@
 #!/usr/bin/env python
 import math
-
+import numpy as np
 #Input: latency
 #Output: QoE and Slope
+
+def load_curve():
+    x = np.load("x_amazon.npy")
+    y = np.load("y_amazon.npy")
+    x = x * 1000
+    print x
+    return x, y
 
 def QoECurve(e2e_latency):
 
@@ -13,6 +20,7 @@ def QoECurve(e2e_latency):
     Your QoE Curve goes here
     '''
 
+    '''
     if (e2e_latency < 1000.0):
 
         QoE = -0.0005 * e2e_latency + 1.0
@@ -32,9 +40,24 @@ def QoECurve(e2e_latency):
 
         QoE = -0.00000416666666666667 * e2e_latency + 0.03
         Slope = -0.00000416666666666667
-
+    '''
     '''
     QoE Curve ends Here
     '''
-
+    x, y = load_curve()
+    n = np.shape(x)[0]
+    zone_flag = 0
+    for i in range(n):
+        if e2e_latency > x[i]: zone_flag = zone_flag + 1
+        else: break
+    if zone_flag == 0:
+        QoE = x[0]
+        Slope = 0
+    elif zone_flag == n:
+        QoE = x[n-1]
+        Slope = 0
+    else:
+        Slope = (y[zone_flag] - y[zone_flag - 1]) / (x[zone_flag] - x[zone_flag - 1])
+        b = (x[zone_flag]*y[zone_flag - 1] - x[zone_flag - 1]*y[zone_flag]) / (x[zone_flag] - x[zone_flag - 1])
+        QoE = Slope * e2e_latency + b
     return QoE, Slope
