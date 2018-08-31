@@ -24,14 +24,19 @@ Msg Handler
 def datahandler(body):
     # print(str(body))
     message_body = str(body).split()
-    message_body[0] = message_body[0].strip('b\'')
-    message_body[1] = message_body[1].strip('\'')
+    message_body[0] = message_body[0].strip('b\'') # time when generating requests
+    message_body[1] = message_body[1].strip('\'')  # request non back end delay
+    # message_body[2] = message_body[2].strip('\'')   # message index
+    # message_index = int(message_body[2])
     # print(message_body[0])
     now_time = int(round(time.time() * 1000))
-    e2e_latency = now_time - int(message_body[0]) + int(message_body[1])
+    e2e_latency = now_time - int(message_body[0]) + int(message_body[1]) # total e2e dealy
+    back_end_zero = int(message_body[1]) # only non back end delay
     sa, sb = QoECurve.QoECurve(e2e_latency)
-    print(sa)
+    sa_d, sb_d = QoECurve.QoECurve(back_end_zero)
+    print(sa, sa_d - sa)
     time.sleep(0.005)
+
 
 
 def callback(ch, method, properties, body):
