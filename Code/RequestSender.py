@@ -25,6 +25,7 @@ def RequestSender(scheduler, requests, priority, sleep_time):
 
         #current_time = datetime.datetime.now() #start time
         m_priority = priority[i]
+        # print (m_priority)
         message = str(int(round(time.time() * 1000))) + ' ' + str(requests[i])
 
         if scheduler == 'QoE':
@@ -34,6 +35,12 @@ def RequestSender(scheduler, requests, priority, sleep_time):
                                   body=message,
                                   )
         elif scheduler == 'EDF':
+            channel.basic_publish(exchange='',
+                                  routing_key='hello',
+                                  properties=pika.BasicProperties(delivery_mode=2, priority=m_priority),
+                                  body=message,
+                                  )
+        elif scheduler == 'SL':
             channel.basic_publish(exchange='',
                                   routing_key='hello',
                                   properties=pika.BasicProperties(delivery_mode=2, priority=m_priority),
